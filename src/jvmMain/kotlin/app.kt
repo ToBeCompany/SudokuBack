@@ -3,8 +3,9 @@ import kotlin.random.Random
 fun main() {
     show(generateFull(4))
 }
+fun generateFull(seed : List<Int>) = generateFull(seed.size)
 
-fun generateFull(size : Int): MutableList<List<Int>> {
+fun generateFull(size : Int): List<List<Int>> {
     val box : MutableList<List<Int>> = MutableList(size) {
         MutableList(size) {
             //Random.nextInt(1, 10)

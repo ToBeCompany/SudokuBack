@@ -15,17 +15,16 @@ kotlin {
             kotlinOptions.jvmTarget = "1.8"
         }
         testRuns["test"].executionTask.configure {
-            useJUnit()
+            useJUnitPlatform()
         }
     }
     sourceSets {
-        val commonMain by getting
-        val commonTest by getting {
+        val jvmMain by getting
+        val jvmTest by getting {
             dependencies {
-                implementation(kotlin("test"))
+                implementation("org.testng:testng:7.1.0")
+                implementation("org.junit.jupiter:junit-jupiter:5.7.0")
             }
         }
-        val jvmMain by getting
-        val jvmTest by getting
     }
 }
