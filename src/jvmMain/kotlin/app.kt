@@ -43,3 +43,7 @@ fun show(list : List<List<Int>>) {
         println(it)
     }
 }
+
+fun shiftLeft(list: List<Int>): List<Int> {
+    //TODO implement
+}

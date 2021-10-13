@@ -56,4 +56,25 @@ internal class AppKtTest {
             )
         }
     }
+
+    @Test
+    fun shiftTest(){
+        val before = listOf(
+            listOf(1,2,3),
+            listOf(1,2),
+            listOf(1,2,3,4)
+        )
+        val after = listOf(
+            listOf(2,3,1),
+            listOf(2,1),
+            listOf(2,3,4,1)
+        )
+        for (i in before.indices){
+            Assertions.assertArrayEquals(
+                after[i].toTypedArray(),
+                shiftLeft(before[i]).toTypedArray()
+            )
+        }
+    }
+
 }
