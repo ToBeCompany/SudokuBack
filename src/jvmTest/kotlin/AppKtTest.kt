@@ -72,7 +72,7 @@ internal class AppKtTest {
         for (i in before.indices){
             Assertions.assertArrayEquals(
                 after[i].toTypedArray(),
-                shiftLeft(before[i]).toTypedArray()
+                before[i].shift().toTypedArray()
             )
         }
     }
