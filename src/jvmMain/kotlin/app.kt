@@ -3,7 +3,24 @@ import kotlin.math.sqrt
 import kotlin.random.Random
 
 fun main() {
-    show(generateWithZeros(listOf(0,1,2,3,4,5)))
+    val random = random()
+    val full = generateFull(random)
+    val zeros = generateWithZeros(random)
+    show(zeros)
+    while(true) {
+        println("выбери столбик")
+        val stage = readLine()!!.toInt() - 1
+        println("выбери не заполненное число")
+        val value = readLine()!!.toInt() - 1
+        println("выбери правильное число")
+        val truevalue = readLine()!!.toInt()
+        zeros[stage][value] = truevalue
+        show(zeros)
+        if(zeros == full) {
+            println("nice work")
+            break
+        }
+    }
 }
 fun generateFull(seed : List<Int>): MutableList<List<Int>> {
     val box : MutableList<List<Int>> = MutableList(1) {
@@ -26,7 +43,7 @@ fun generateFull(seed : List<Int>): MutableList<List<Int>> {
         }
     }
     if(size > 2) {
-        for (i in 2 until size * 2) {
+        for (i in 2 until size * 2 - 1) {
             box.add(box[i].subshift(size))
         }
     }
@@ -36,7 +53,7 @@ fun generateFull(seed : List<Int>): MutableList<List<Int>> {
 fun generateWithZeros(seed : List<Int>): MutableList<MutableList<Int>> {
     val list = generateFull(seed) as MutableList<MutableList<Int>>
     for(i in 0..4) {
-        list[Random.nextInt(seed.size - 1)][Random.nextInt(seed.size - 1)] = 0
+        list[Random.nextInt(1, seed.size)][Random.nextInt(seed.size - 1)] = 0
     }
     return list
 }
@@ -60,4 +77,15 @@ fun<T>  List<T>.subshift(circleQuantity : Int): List<T> {
             .shift()
     }
     return circles.flatten()
+}
+
+fun random(): List<Int> {
+    val list = MutableList(8) {
+        it + 1
+    }
+    return (0..3).map {
+        val random = list.random()
+        list.remove(random)
+        random
+    }
 }
