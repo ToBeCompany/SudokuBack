@@ -3,9 +3,9 @@ import kotlin.math.sqrt
 import kotlin.random.Random
 
 fun main() {
-    val random = random()
+    val random = random(9)
     val full = generateFull(random)
-    val zeros = generateWithZeros(random)
+    val zeros = generateWithZeros(full, 50) as MutableList<MutableList<Int>>
     show(zeros)
     while(true) {
         println("выбери столбик")
@@ -22,7 +22,7 @@ fun main() {
         }
     }
 }
-fun generateFull(seed : List<Int>): MutableList<List<Int>> {
+fun generateFull(seed : List<Int>): List<List<Int>> {
     val box : MutableList<List<Int>> = MutableList(1) {
         MutableList(seed.size) {
             seed[it]
@@ -50,12 +50,10 @@ fun generateFull(seed : List<Int>): MutableList<List<Int>> {
     return box
 }
 
-fun generateWithZeros(seed : List<Int>): MutableList<MutableList<Int>> {
-    val list = generateFull(seed) as MutableList<MutableList<Int>>
-    for(i in 0..4) {
-        list[Random.nextInt(1, seed.size)][Random.nextInt(seed.size - 1)] = 0
+fun generateWithZeros(seed : List<List<Int>>, percent : Int ) = seed.map { row ->
+    row.map {
+        if (Random.nextInt(100) < percent) 0 else it
     }
-    return list
 }
 
 fun show(list : List<List<Int>>) {
@@ -70,7 +68,7 @@ fun<T> List<T>.shift(int : Int = 1): List<T> {
     return list
 }
 
-fun<T>  List<T>.subshift(circleQuantity : Int): List<T> {
+fun<T> List<T>.subshift(circleQuantity : Int): List<T> {
     val circleLength = size / circleQuantity
     val circles = List(circleQuantity){
         this.subList(it * circleLength, it * circleLength + circleLength)
@@ -79,13 +77,4 @@ fun<T>  List<T>.subshift(circleQuantity : Int): List<T> {
     return circles.flatten()
 }
 
-fun random(): List<Int> {
-    val list = MutableList(8) {
-        it + 1
-    }
-    return (0..3).map {
-        val random = list.random()
-        list.remove(random)
-        random
-    }
-}
+fun random(n : Int)=List(n) { it + 1}.shuffled()
