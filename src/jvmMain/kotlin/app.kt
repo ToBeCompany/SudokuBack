@@ -1,58 +1,24 @@
 import java.util.*
-import kotlin.math.sqrt
-import kotlin.random.Random
 
 fun main() {
-    val random = random(9)
-    val full = generateFull(random)
-    val zeros = generateWithZeros(full, 50) as MutableList<MutableList<Int>>
-    show(zeros)
+    val game = Game(random(4))
+    show(game.mutablezeros)
     while(true) {
-        println("выбери столбик")
+        println("выбери строку")
         val stage = readLine()!!.toInt() - 1
-        println("выбери не заполненное число")
+        println("выбери столб")
         val value = readLine()!!.toInt() - 1
         println("выбери правильное число")
         val truevalue = readLine()!!.toInt()
-        zeros[stage][value] = truevalue
-        show(zeros)
-        if(zeros == full) {
+        val answer = game.put(stage, value, truevalue)
+        show(game.mutablezeros)
+        if(answer == Answer.Done) {
             println("nice work")
             break
+        } else if(answer == Answer.Illegal) {
+            println("уже был заполнен")
         }
-    }
-}
-fun generateFull(seed : List<Int>): List<List<Int>> {
-    val box : MutableList<List<Int>> = MutableList(1) {
-        MutableList(seed.size) {
-            seed[it]
-        }
-    }
-    val size = sqrt(seed.size.toDouble()).toInt()
-
-    for(i in 0 until size - 1) {
-        box.add(box[i].shift(size))
-    }
-    if(size > 2) {
-        for(i in 0 until size - 1) {
-            box.add(box[i].subshift(size))
-        }
-    } else {
-        for(i in 0 until size) {
-            box.add(box[i].subshift(size))
-        }
-    }
-    if(size > 2) {
-        for (i in 2 until size * 2 - 1) {
-            box.add(box[i].subshift(size))
-        }
-    }
-    return box
-}
-
-fun generateWithZeros(seed : List<List<Int>>, percent : Int ) = seed.map { row ->
-    row.map {
-        if (Random.nextInt(100) < percent) 0 else it
+        println(answer)
     }
 }
 
